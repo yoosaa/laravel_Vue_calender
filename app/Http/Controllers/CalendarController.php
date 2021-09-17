@@ -17,4 +17,44 @@ class CalendarController extends Controller
     {
         return response()->json(Calendar::find($id));
     }
+
+    public function create(Request $request)
+    {
+        $calendar = new Calendar();
+
+        return $this->_saveCalendar($request, $calendar);
+    }
+
+    public function save(Request $request)
+    {
+        $calendar = Calendar::finc($request->id);
+
+        return $this->_saveCalendar($request, $calendar);
+    }
+
+    public function destroy(Request $request)
+    {
+        $calendar = Calendar::find($request->id);
+
+        if($calendar->delete()){
+            return response()->json($calendar);
+        }else{
+            return response()->json(['error', 'Delete Error']);
+        }
+    }
+
+    private function _saveCalendar(Request $request, $calendar)
+    {
+        $calendar->name = $request->input('name');
+        $calendar->color = $request->input('color');
+        $calendar->visibility = $request->input('visibility');
+        $calendar->user_id = $request->input('user_id');
+
+
+        if($calendar->save()){
+            return response()->json($calendar);
+        }else{
+            return response()->json(['error'=>'Save Error']);
+        }
+    }
 }
