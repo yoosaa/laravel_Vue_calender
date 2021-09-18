@@ -19,5 +19,20 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/calendars', [CalendarController::class, 'index']);
-Route::get('/calendars/{id}', [CalendarController::class, 'show']);
+// calendar
+Route::group(['prefix' => 'calendar', 'as' => 'calendars'], function(){
+    Route::get('/', [CalendarController::class, 'index'])->name('index');
+    Route::get('/{id}', [CalendarController::class, 'show'])->name('show');
+    Route::post('/', [CalendarController::class, 'create'])->name('create');
+    Route::put('/{id}', [CalendarController::class, 'save'])->name('update');
+    Route::delete('/{id}', [CalendarController::class, 'destroy'])->name('delete');
+});
+
+// events
+Route::group(['prefix' => 'event', 'as' => 'events'], function(){
+    Route::get('/', [EventController::class, 'index'])->name('index');
+    Route::get("/{id}", [EventController::class, 'show'])->name('show');
+    Route::post('/', [EventController::class, 'create'])->name('create');
+    Route::put('/{id}', [EventController::class, 'save'])->name('update');
+    Route::delete('/{id}', [EventController::class, 'destroy'])->name('delete');
+});

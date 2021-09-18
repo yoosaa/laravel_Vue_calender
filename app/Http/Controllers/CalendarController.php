@@ -10,7 +10,7 @@ class CalendarController extends Controller
     //  追加
     public function index()
     {
-        Calendar::all();
+        return response() -> json(Calendar::all());
     }
 
     public function show(int $id)
@@ -18,6 +18,7 @@ class CalendarController extends Controller
         return response()->json(Calendar::find($id));
     }
 
+    // 新規
     public function create(Request $request)
     {
         $calendar = new Calendar();
@@ -25,24 +26,27 @@ class CalendarController extends Controller
         return $this->_saveCalendar($request, $calendar);
     }
 
+    // 更新
     public function save(Request $request)
     {
-        $calendar = Calendar::finc($request->id);
+        $calendar = Calendar::find($request->id);
 
         return $this->_saveCalendar($request, $calendar);
     }
 
+    // 削除
     public function destroy(Request $request)
     {
         $calendar = Calendar::find($request->id);
 
-        if($calendar->delete()){
+        if ($calendar->delete()) {
             return response()->json($calendar);
-        }else{
+        } else {
             return response()->json(['error', 'Delete Error']);
         }
     }
 
+    // データ保存処理
     private function _saveCalendar(Request $request, $calendar)
     {
         $calendar->name = $request->input('name');
@@ -50,11 +54,10 @@ class CalendarController extends Controller
         $calendar->visibility = $request->input('visibility');
         $calendar->user_id = $request->input('user_id');
 
-
-        if($calendar->save()){
+        if ($calendar->save()) {
             return response()->json($calendar);
-        }else{
-            return response()->json(['error'=>'Save Error']);
+        } else {
+            return response()->json(['error' => 'Save Error']);
         }
     }
 }
