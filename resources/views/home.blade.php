@@ -17,6 +17,9 @@
                     {{ __('You are logged in!') }}
                 </div>
             </div>
+            <div id="app">
+                <example-component></example-component>
+            </div>
         </div>
     </div>
 </div>
