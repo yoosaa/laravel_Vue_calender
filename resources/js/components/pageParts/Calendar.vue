@@ -4,29 +4,25 @@
             <v-calendar
                 v-model="value"
                 :events="events"
-                @change="fetchEvent"
+                @change="fetchEvents"
             ></v-calendar>
         </v-sheet>
     </div>
 </template>
 
 <script>
+import {mapGetters, mapActions} from 'vuex';
+
 export default {
     name: 'Calendar',
     data: () =>({
         value: new Date('2021/09/01'),
-        events: [],
     }),
+    computed: {
+        ...mapGetters('events', ['events']),
+    },
     methods: {
-        fetchEvent() {
-            axios.get('/api/event')
-                .then(response => {
-                    this.events = response.data;
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-        }
+        ...mapActions('events', ['fetchEvents'])
     }
 }
 </script>

@@ -21,7 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 // calendar
-Route::group(['prefix' => 'calendar', 'as' => 'calendars'], function(){
+Route::group(['prefix' => 'calendars', 'as' => 'calendars'], function(){
     Route::get('/', [CalendarController::class, 'index'])->name('index');
     Route::get('/{id}', [CalendarController::class, 'show'])->name('show');
     Route::post('/', [CalendarController::class, 'create'])->name('create');
@@ -30,7 +30,7 @@ Route::group(['prefix' => 'calendar', 'as' => 'calendars'], function(){
 });
 
 // events
-Route::group(['prefix' => 'event', 'as' => 'events'], function(){
+Route::group(['prefix' => 'events', 'as' => 'events'], function(){
     Route::get('/', [EventController::class, 'index'])->name('index');
     Route::get("/{id}", [EventController::class, 'show'])->name('show');
     Route::post('/', [EventController::class, 'create'])->name('create');
