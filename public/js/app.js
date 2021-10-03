@@ -2110,6 +2110,52 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -2119,14 +2165,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       value: (0,date_fns__WEBPACK_IMPORTED_MODULE_0__["default"])(new Date(), 'yyyy/MM/dd')
     };
   },
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)('events', ['events'])), {}, {
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)('events', ['events', 'event'])), {}, {
     title: function title() {
       return (0,date_fns__WEBPACK_IMPORTED_MODULE_0__["default"])(new Date(this.value), 'yyyy/MM/dd');
     }
   }),
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)('events', ['fetchEvents'])), {}, {
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)('events', ['fetchEvents', 'setEvent'])), {}, {
     setToday: function setToday() {
       this.value = (0,date_fns__WEBPACK_IMPORTED_MODULE_0__["default"])(new Date(), 'yyyy/MM/dd');
+    },
+    showEvent: function showEvent(_ref) {
+      var event = _ref.event;
+      this.setEvent(event);
+    },
+    closeDialog: function closeDialog() {
+      this.setEvent(null);
     }
   })
 });
@@ -2321,7 +2374,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 var state = {
-  events: []
+  events: [],
+  event: null
 };
 var getters = {
   events: function events(state) {
@@ -2331,11 +2385,20 @@ var getters = {
         end: new Date(event.end)
       });
     });
+  },
+  event: function event(state) {
+    return state.event ? _objectSpread(_objectSpread({}, state.event), {}, {
+      start: new Date(state.event.start),
+      end: new Date(state.event.end)
+    }) : null;
   }
 };
 var mutations = {
   setEvents: function setEvents(state, events) {
     return state.events = events;
+  },
+  setEvent: function setEvent(state, event) {
+    return state.event = event;
   }
 };
 var actions = {
@@ -2361,6 +2424,10 @@ var actions = {
         }
       }, _callee);
     }))();
+  },
+  setEvent: function setEvent(_ref2, event) {
+    var commit = _ref2.commit;
+    commit('setEvent', event);
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -42160,7 +42227,7 @@ var render = function() {
                 return new Date(timestamp.date).getMonth() + 1
               }
             },
-            on: { change: _vm.fetchEvents },
+            on: { change: _vm.fetchEvents, "click:event": _vm.showEvent },
             model: {
               value: _vm.value,
               callback: function($$v) {
@@ -42171,6 +42238,180 @@ var render = function() {
           })
         ],
         1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { value: _vm.event !== null, width: "600" },
+          on: { "click:outside": _vm.closeDialog }
+        },
+        [
+          _vm.event !== null
+            ? _c(
+                "div",
+                [
+                  _c(
+                    "v-card",
+                    { staticClass: "pb-12" },
+                    [
+                      _c(
+                        "v-card-actions",
+                        { staticClass: "d-flex justify-end pa-2" },
+                        [
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { icon: "" },
+                              on: { click: _vm.closeDialog }
+                            },
+                            [
+                              _c("v-icon", { attrs: { size: "20px" } }, [
+                                _vm._v("mdi-close")
+                              ])
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-card-title",
+                        [
+                          _c(
+                            "v-row",
+                            [
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass:
+                                    "d-flex justify-center align-center",
+                                  attrs: { cols: "2" }
+                                },
+                                [
+                                  _c(
+                                    "v-icon",
+                                    {
+                                      attrs: {
+                                        size: "20px",
+                                        color: _vm.event.color || "blue"
+                                      }
+                                    },
+                                    [_vm._v("mdi-square")]
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                { staticClass: "d-flex align-center" },
+                                [
+                                  _vm._v(
+                                    "\n                            " +
+                                      _vm._s(_vm.event.name) +
+                                      "\n                        "
+                                  )
+                                ]
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-card-text",
+                        [
+                          _c(
+                            "v-row",
+                            [
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass:
+                                    "d-flex justify-center align-center",
+                                  attrs: { cols: "2" }
+                                },
+                                [
+                                  _c("v-icon", { attrs: { size: "20px" } }, [
+                                    _vm._v("mdi-clock-time-three-outline")
+                                  ])
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                { staticClass: "d-flex align-center" },
+                                [
+                                  _vm._v(
+                                    "\n                            " +
+                                      _vm._s(_vm.event.start.toLocaleString()) +
+                                      " ~ " +
+                                      _vm._s(_vm.event.end.toLocaleString()) +
+                                      "\n                        "
+                                  )
+                                ]
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-card-text",
+                        [
+                          _c(
+                            "v-row",
+                            [
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass:
+                                    "d-flex justify-center align-center",
+                                  attrs: { cols: "2" }
+                                },
+                                [
+                                  _c("v-icon", { attrs: { size: "20px" } }, [
+                                    _vm._v("mdi-card-text-outline")
+                                  ])
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                { staticClass: "d-flex align-center" },
+                                [
+                                  _vm._v(
+                                    "\n                            " +
+                                      _vm._s(
+                                        _vm.event.description ||
+                                          "no description"
+                                      ) +
+                                      "\n                        "
+                                  )
+                                ]
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            : _vm._e()
+        ]
       )
     ],
     1
