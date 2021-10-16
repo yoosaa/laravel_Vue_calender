@@ -50,7 +50,8 @@ class EventController extends Controller
         $event->start = new Carbon($request->input('start')); // JSからのデータを日時形式に変換
         $event->end = new Carbon($request->input('end')); // JSからのデータを日時形式に変換
         $event->timed = $request->input('timed');
-        $event->calendar_id = $request->input('calendar_id');
+        // $event->calendar_id = $request->input('calendar_id');
+        $event->calendar_id = 1;
         $event->description = $request->input('description');
         $event->color = $request->input('color');
 

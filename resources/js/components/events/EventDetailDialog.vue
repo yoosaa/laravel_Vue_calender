@@ -12,7 +12,7 @@
         </v-card-title>
         <v-card-text>
             <DialogSection icon="mdi-clock-time-three-outline">
-                {{ event.start.toLocaleString() }} ~ {{ event.end.toLocaleString() }}
+                {{ event.startDate }} {{ event.timed ? event.startTime : '' }} ~ {{ event.endDate }} {{ event.timed ? event.endTime : '' }}
             </DialogSection>
         </v-card-text>
         <v-card-text>
@@ -26,7 +26,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import DialogSection from './DialogSection';
+import DialogSection from '../pageParts/DialogSection';
 
 export default {
     name: 'EventDetailDialog',
@@ -37,9 +37,15 @@ export default {
         ...mapGetters('events', ['event']),
     },
     methods: {
-        ...mapActions('events', ['setEvent']),
+        ...mapActions('events', ['setEvent', 'deleteEvent', 'setEditMode']),
         closeDialog() {
             this.setEvent(null);
+        },
+        removeEvent(){
+            const res = confirm(`「${this.event.name}」を削除してもよろしいですか？`);
+            if(res){
+                this.deleteEvent(this.event.id);
+            }
         }
     }
 }

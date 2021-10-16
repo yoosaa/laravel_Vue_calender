@@ -35,7 +35,8 @@
 <script>
 import {format} from 'date-fns';
 import {mapGetters, mapActions} from 'vuex';
-import EventDetailDialog from './EventDetailDialog.vue';
+import EventDetailDialog from '../events/EventDetailDialog';
+// import EventFormDialog from '../events/EventFormDialog';
 
 export default {
     name: 'Calendar',
