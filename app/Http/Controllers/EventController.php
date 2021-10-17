@@ -10,12 +10,12 @@ class EventController extends Controller
     //
     public function index()
     {
-        return response()->json(Event::all());
+        return response()->json(Event::with('calendar')->get());
     }
 
     public function show(int $id)
     {
-        return response()->json(Event::find($id));
+        return response()->json(Event::with('calendar')->find($id));
     }
 
     public function create(Request $request)
@@ -49,14 +49,15 @@ class EventController extends Controller
         $event->name = $request->input('name');
         $event->start = new Carbon($request->input('start')); // JSからのデータを日時形式に変換
         $event->end = new Carbon($request->input('end')); // JSからのデータを日時形式に変換
+
         $event->timed = $request->input('timed');
-        // $event->calendar_id = $request->input('calendar_id');
-        $event->calendar_id = 1;
+        $event->calendar_id = $request->input('calendar_id');
+
         $event->description = $request->input('description');
         $event->color = $request->input('color');
 
         if ($event->save()) {
-            return response()->json($event);
+            return response()->json(Event::with('calendar')->find($event->id));
         } else {
             return response()->json(['error' => 'Save Error']);
         }

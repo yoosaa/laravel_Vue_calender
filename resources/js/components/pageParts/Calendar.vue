@@ -25,7 +25,7 @@
 
         <!--イベント詳細ダイアログ　追加-->
         <v-dialog :value="event !== null" @click:outside="closeDialog" width="600">
-            <EventDetailDialog v-if="event !== null" />
+            <EventFormDetailDialog v-if="event !== null" />
         </v-dialog>
         <!--イベント詳細ダイアログ　追加ここまで-->
 
@@ -35,7 +35,7 @@
 <script>
 import {format} from 'date-fns';
 import {mapGetters, mapActions} from 'vuex';
-import EventDetailDialog from '../events/EventDetailDialog';
+import EventFormDetailDialog from '../events/EventFormDetailDialog';
 // import EventFormDialog from '../events/EventFormDialog';
 
 export default {
@@ -44,7 +44,7 @@ export default {
         value: format(new Date(), 'yyyy/MM/dd'),
     }),
     components: {
-        EventDetailDialog,
+        EventFormDetailDialog,
     },
     computed: {
         ...mapGetters('events', ['events', 'event']),

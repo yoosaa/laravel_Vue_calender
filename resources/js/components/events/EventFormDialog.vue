@@ -23,6 +23,9 @@
                 <TextForm v-model="description" />
             </DialogSection>
             <DialogSection icon="mdi-palette">
+                <CalendarSelectForm :value="calendar" @input="changeCalendar($event)" />
+            </DialogSection>
+            <DialogSection icon="mdi-palette">
                 <ColorForm v-model="color" />
             </DialogSection>
         </v-card-text>
@@ -41,6 +44,8 @@ import TimeForm from '../form/TimeForm';
 import TextForm from '../form/TextForm';
 import ColorForm from '../form/ColorForm';
 import CheckBox from '../form/CheckBox';
+import CalendarSelectForm from '../form/CalendarSelectForm';
+import CalendarSelectForm from '../form/CalendarSelectForm.vue';
 
 export default {
     name: 'EventFormDialog',
@@ -50,7 +55,8 @@ export default {
         TimeForm,
         TextForm,
         ColorForm,
-        CheckBox
+        CheckBox,
+        CalendarSelectForm
     },
     data: () => ({
         name: '',
@@ -60,7 +66,8 @@ export default {
         endTime: null,
         description: '',
         color: '',
-        allDay: false
+        allDay: false,
+        calendar: null
     }),
     computed: {
         ...mapGetters('events', ['event'])
@@ -74,9 +81,10 @@ export default {
         this.description = this.event.description;
         this.color = this.event.color;
         this.allDay = this.event.timed;
+        this.calendar = this.event.calendar;
     },
     methods: {
-        ...mapActions('events', ['setEvent', 'setEditMode', 'createEvent']),
+        ...mapActions('events', ['setEvent', 'setEditMode', 'createEvent', 'updateEvent']),
         colorDialog(){
             this.setEditMode(false);
             this.setEvent(null);
@@ -89,7 +97,8 @@ export default {
                 end: `${this.endDate} ${this.endTime || ''}`,
                 description: this.description,
                 color: this.color,
-                timed: !this.allDay
+                timed: !this.allDay,
+                calendar_id: this.calendar.id
             };
             if(params.id){
                 this.updateEvent(params);
@@ -103,6 +112,10 @@ export default {
             if(!this.event.id){
                 this.setEvent(null);
             }
+        },
+        changeCalendar(calendar){
+            this.color = calendar.color;
+            this.calendar = calendar;
         }
     }
 }

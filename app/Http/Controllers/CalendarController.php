@@ -38,6 +38,9 @@ class CalendarController extends Controller
     public function destroy(Request $request)
     {
         $calendar = Calendar::find($request->id);
+        $calendar->events()->each(function($event){
+            $event->delete();
+        });
 
         if ($calendar->delete()) {
             return response()->json($calendar);
